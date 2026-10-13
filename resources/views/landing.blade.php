@@ -42,7 +42,7 @@
             </div>
 
             {{-- product preview built in HTML (no screenshot needed) --}}
-            <div class="relative" aria-hidden="true">
+            <div class="relative sm:mb-14" aria-hidden="true">
                 <div class="card rotate-1 p-5 shadow-2xl shadow-brand-900/10">
                     <div class="flex items-center justify-between">
                         <p class="font-display font-extrabold">{{ __('Today') }}</p>
@@ -64,7 +64,7 @@
                         @endforeach
                     </ul>
                 </div>
-                <div class="card absolute -bottom-6 -left-6 hidden w-56 -rotate-2 p-4 shadow-xl sm:block">
+                <div class="card absolute -bottom-20 -left-6 hidden w-56 -rotate-2 p-4 shadow-xl sm:block">
                     <p class="text-xs font-bold text-muted">{{ __('Monthly target') }}</p>
                     <div class="mt-2 h-2 rounded-full bg-surface-2"><div class="h-2 w-[78%] rounded-full bg-brand-500"></div></div>
                     <p class="num mt-2 text-sm font-extrabold">Rs. 195,000 / 250,000</p>
