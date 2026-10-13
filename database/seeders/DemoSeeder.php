@@ -114,6 +114,9 @@ class DemoSeeder extends Seeder
                     $type = ['life', 'life', 'motor', 'health', 'education', 'retirement', 'life', 'motor', 'property'][mt_rand(0, 8)];
                     $freq = $type === 'motor' || $type === 'property' ? 'yearly' : ['monthly', 'monthly', 'monthly', 'quarterly', 'yearly'][mt_rand(0, 4)];
                     $start = $today->copy()->subMonths(mt_rand(1, 40))->day(mt_rand(1, 28));
+                    if ($k === 0 && $i % 5 === 2) {   // some new business this month, so the target bar has progress
+                        $start = $today->copy()->startOfMonth()->addDays(mt_rand(0, max(0, $today->day - 1)));
+                    }
                     $premium = match ($type) {
                         'motor' => mt_rand(25, 120) * 1000,
                         'health' => mt_rand(3, 12) * 1000,
@@ -146,6 +149,10 @@ class DemoSeeder extends Seeder
                         $due = $policy->dueAfter($due);
                     }
                     $behind = mt_rand(0, 9) === 0 ? min(count($dues), mt_rand(1, 2)) : 0;
+                    // keep overdue premiums realistic: at most about two months late
+                    while ($behind > 0 && $dues[count($dues) - $behind]->lt($today->copy()->subDays(70))) {
+                        $behind--;
+                    }
                     $paidDues = array_slice($dues, 0, count($dues) - $behind);
                     $nextDue = $behind ? $dues[count($dues) - $behind] : $due;
 
