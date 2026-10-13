@@ -7,6 +7,14 @@
     $hour = now()->hour;
     $greet = $hour < 12 ? __('Good morning') : ($hour < 17 ? __('Good afternoon') : __('Good evening'));
 @endphp
+@php
+    // @json splits its argument on commas, so the chart data is built here
+    $monthlyChart = ['kind' => 'bars', 'labels' => $monthly->pluck('label'), 'series' => [
+        ['label' => __('Collected'), 'values' => $monthly->pluck('collected')],
+        ['label' => __('Commission'), 'values' => $monthly->pluck('commission')],
+    ]];
+    $typesChart = ['kind' => 'doughnut', 'labels' => $byType->keys(), 'values' => $byType->values()];
+@endphp
 <x-app-layout :title="__('Dashboard')">
     <x-page-header :title="$greet.', '.explode(' ', $user->name)[0]" :subtitle="now()->translatedFormat('l, j F Y')">
         <x-slot:actions>
@@ -69,7 +77,7 @@
                     <span class="text-xs font-semibold text-muted">{{ __('Last 6 months') }}</span>
                 </div>
                 <div class="mt-4 h-64"><canvas data-chart="chart-monthly" role="img" aria-label="{{ __('Collections and commission for the last 6 months') }}"></canvas></div>
-                <script type="application/json" id="chart-monthly">@json(['kind' => 'bars', 'labels' => $monthly->pluck('label'), 'series' => [['label' => __('Collected'), 'values' => $monthly->pluck('collected')], ['label' => __('Commission'), 'values' => $monthly->pluck('commission')]]])</script>
+                <script type="application/json" id="chart-monthly">@json($monthlyChart)</script>
             </section>
         </div>
 
@@ -112,7 +120,7 @@
                 <h2 class="font-display text-lg font-extrabold">{{ __('Active policies by type') }}</h2>
                 @if ($byType->isNotEmpty())
                     <div class="mt-4 h-52"><canvas data-chart="chart-types" role="img" aria-label="{{ __('Active policies by type') }}"></canvas></div>
-                    <script type="application/json" id="chart-types">@json(['kind' => 'doughnut', 'labels' => $byType->keys(), 'values' => $byType->values()])</script>
+                    <script type="application/json" id="chart-types">@json($typesChart)</script>
                 @else
                     <x-empty icon="shield" :title="__('No active policies yet')"><a href="{{ route('policies.create') }}" class="btn-primary btn-sm mt-2">{{ __('Add a policy') }}</a></x-empty>
                 @endif
