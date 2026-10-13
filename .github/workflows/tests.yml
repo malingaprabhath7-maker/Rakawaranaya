@@ -68,3 +68,37 @@ jobs:
               echo "::error title=Broken view $src::$out%0A$ctx"
             }
           done
+
+  docker:
+    # builds the same image Render uses and checks that the site answers
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Build image
+        run: docker build -t rakawarana .
+
+      - name: Start container
+        run: |
+          docker run -d --name app -p 10000:10000 -e PORT=10000 \
+            -e APP_ENV=production -e APP_DEBUG=false -e APP_URL=http://localhost:10000 \
+            -e DB_CONNECTION=sqlite -e SESSION_DRIVER=database -e CACHE_STORE=database \
+            -e LOG_CHANNEL=stderr -e DEMO_ENABLED=true rakawarana
+          for i in $(seq 1 60); do curl -sf http://localhost:10000/up >/dev/null && break; sleep 2; done
+
+      - name: Check pages
+        run: |
+          curl -sf http://localhost:10000/up
+          curl -sf http://localhost:10000/ | grep -q "CRM"
+          curl -sf http://localhost:10000/login >/dev/null
+          echo "Site is up"
+
+      - name: Container log
+        if: always()
+        run: |
+          docker logs app 2>&1 | tail -80 > container.log || true
+          cat container.log
+          if [ "${{ job.status }}" != "success" ]; then
+            msg=$(tail -40 container.log | sed 's/%/%25/g' | awk '{printf "%s%%0A", $0}')
+            echo "::error title=Container log::$msg"
+          fi
