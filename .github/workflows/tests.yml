@@ -10,7 +10,7 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up PHP 8.3
         uses: shivammathur/setup-php@v2
@@ -20,7 +20,7 @@ jobs:
           coverage: none
 
       - name: Set up Node 22
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: '22'
 
@@ -38,4 +38,20 @@ jobs:
           php artisan key:generate
 
       - name: Run tests
-        run: php artisan test
+        run: php artisan test --log-junit junit.xml
+
+      # list each failing test as an annotation on the run page, so failures are readable at a glance
+      - name: Report failures
+        if: failure() && hashFiles('junit.xml') != ''
+        run: |
+          python3 - <<'PY'
+          import xml.etree.ElementTree as ET
+          n = 0
+          for case in ET.parse('junit.xml').iter('testcase'):
+              for bad in list(case.findall('failure')) + list(case.findall('error')):
+                  n += 1
+                  msg = (bad.text or bad.get('message') or '').strip()[:3000]
+                  msg = msg.replace('%', '%25').replace('\r', '').replace('\n', '%0A')
+                  print(f"::error title={case.get('class')}::{case.get('name')}%0A{msg}")
+          print(f"{n} failing tests")
+          PY
