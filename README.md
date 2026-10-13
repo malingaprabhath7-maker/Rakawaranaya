@@ -9,12 +9,19 @@ Clients, policies, premium due dates, renewals, birthdays and follow-ups in one 
 ![Tailwind CSS 4](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
 ![Alpine.js](https://img.shields.io/badge/Alpine.js-3-8BC0D0?logo=alpinedotjs&logoColor=white)
 
-**Live demo:** _add your Render link here_ — press **"Try the demo"**. No sign-up is needed, and the sample data resets every night.
+**Try it:** open this repo in **GitHub Codespaces** (Code → Codespaces → Create) — it installs itself and opens the app with sample data. Press **"Try the demo"**; no sign-up needed.
 
-<!-- After deploying, add screenshots to docs/ and uncomment:
-<img src="docs/dashboard.png" alt="Dashboard">
-<p><img src="docs/phone-today.png" width="230"> <img src="docs/phone-client.png" width="230"> <img src="docs/phone-pipeline.png" width="230"></p>
--->
+<img src="docs/screenshots/desktop-dashboard.png" alt="Dashboard">
+
+<p>
+  <img src="docs/screenshots/phone-today.png" width="250" alt="Today list on a phone">
+  <img src="docs/screenshots/phone-dashboard.png" width="250" alt="Dashboard on a phone">
+  <img src="docs/screenshots/phone-clients.png" width="250" alt="Clients on a phone">
+</p>
+
+| Today list | Sales pipeline | Dark mode |
+|---|---|---|
+| <img src="docs/screenshots/desktop-today.png" alt="Today list"> | <img src="docs/screenshots/desktop-pipeline.png" alt="Pipeline"> | <img src="docs/screenshots/desktop-dashboard-dark.png" alt="Dark mode"> |
 
 ## Why
 
