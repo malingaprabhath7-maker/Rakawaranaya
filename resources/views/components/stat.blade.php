@@ -14,7 +14,7 @@
     @endif
     <span class="min-w-0">
         <span class="block text-xs font-semibold text-muted">{{ $label }}</span>
-        <span class="num mt-0.5 block truncate font-display text-xl font-extrabold tracking-tight">{{ $value }}</span>
+        <span class="num mt-0.5 block font-display text-lg leading-tight font-extrabold tracking-tight [overflow-wrap:anywhere] 2xl:text-xl">{{ $value }}</span>
         @if ($sub)<span class="mt-0.5 block text-xs text-muted">{{ $sub }}</span>@endif
     </span>
 </{{ $tag }}>
