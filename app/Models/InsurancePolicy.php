@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\CarbonInterface;
 use Illuminate\Support\Carbon;
 
 class InsurancePolicy extends Model
@@ -71,7 +72,7 @@ class InsurancePolicy extends Model
     }
 
     /** The due date after $from for this policy's frequency (null for single premium) */
-    public function dueAfter(Carbon $from): ?Carbon
+    public function dueAfter(CarbonInterface $from): ?CarbonInterface
     {
         $months = Options::FREQUENCY_MONTHS[$this->frequency] ?? 0;
         if ($months === 0) {
@@ -84,7 +85,7 @@ class InsurancePolicy extends Model
         return $next->day(min($day, $next->daysInMonth));
     }
 
-    public function isOverdue(?Carbon $today = null): bool
+    public function isOverdue(?CarbonInterface $today = null): bool
     {
         return $this->status === 'active' && $this->next_due_date && $this->next_due_date->lt(($today ?? now())->startOfDay());
     }

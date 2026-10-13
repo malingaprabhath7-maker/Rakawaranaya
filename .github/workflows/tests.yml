@@ -55,3 +55,16 @@ jobs:
                   print(f"::error title={case.get('class')}::{case.get('name')}%0A{msg}")
           print(f"{n} failing tests")
           PY
+
+      # if a Blade view compiled to invalid PHP, show which source file and lines
+      - name: Report broken views
+        if: failure()
+        run: |
+          for f in storage/framework/views/*.php; do
+            out=$(php -l "$f" 2>&1) || {
+              src=$(grep -o 'PATH [^ ]* ENDPATH' "$f" | head -1)
+              line=$(echo "$out" | grep -o 'on line [0-9]*' | grep -o '[0-9]*' | head -1)
+              ctx=$(sed -n "$((line-6)),$((line+2))p" "$f" | sed 's/%/%25/g' | awk '{printf "%s%%0A", $0}')
+              echo "::error title=Broken view $src::$out%0A$ctx"
+            }
+          done

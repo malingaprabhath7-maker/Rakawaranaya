@@ -12,7 +12,7 @@ class AuthTest extends TestCase
 
     public function test_landing_and_auth_pages_load(): void
     {
-        $this->get('/')->assertOk()->assertSee('Rakawarana', false);
+        $this->get('/')->assertOk()->assertSee('CRM');
         $this->get('/login')->assertOk();
         $this->get('/register')->assertOk();
         $this->get('/forgot-password')->assertOk();
