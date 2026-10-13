@@ -1,0 +1,42 @@
+# One-click demo on Render's free plan: Dashboard → New → Blueprint → pick this repo.
+# The free plan has no permanent disk, so the SQLite database is rebuilt on each deploy.
+# That suits the public demo. For real client data use a host with a permanent database (see SETUP-SI.md).
+services:
+  - type: web
+    name: rakawarana
+    runtime: docker
+    plan: free
+    healthCheckPath: /up
+    envVars:
+      - key: APP_NAME
+        value: Rakawarana
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        sync: false        # paste the output of: php artisan key:generate --show
+      - key: APP_URL
+        sync: false        # e.g. https://rakawarana.onrender.com
+      - key: APP_LOCALE
+        value: si
+      - key: APP_TIMEZONE
+        value: Asia/Colombo
+      - key: DB_CONNECTION
+        value: sqlite
+      - key: SESSION_DRIVER
+        value: database
+      - key: SESSION_ENCRYPT
+        value: "true"
+      - key: SESSION_SECURE_COOKIE
+        value: "true"
+      - key: CACHE_STORE
+        value: database
+      - key: QUEUE_CONNECTION
+        value: sync
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: MAIL_MAILER
+        value: log
+      - key: DEMO_ENABLED
+        value: "true"
