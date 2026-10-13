@@ -1,9 +1,9 @@
-# Rakawarana · රැකවරණ
+# Rakawaranaya · රැකවරණය
 
 **A bilingual (Sinhala & English) CRM built for insurance advisors in Sri Lanka.**
 Clients, policies, premium due dates, renewals, birthdays and follow-ups in one place, with one-tap WhatsApp reminders. Advisors spend less time on paperwork and more time with clients.
 
-[![tests](https://github.com/malingaprabhath7-maker/rakawarana/actions/workflows/tests.yml/badge.svg)](https://github.com/malingaprabhath7-maker/rakawarana/actions/workflows/tests.yml)
+[![tests](https://github.com/malingaprabhath7-maker/rakawaranaya/actions/workflows/tests.yml/badge.svg)](https://github.com/malingaprabhath7-maker/rakawaranaya/actions/workflows/tests.yml)
 ![Laravel 13](https://img.shields.io/badge/Laravel-13-FF2D20?logo=laravel&logoColor=white)
 ![PHP 8.3](https://img.shields.io/badge/PHP-8.3-777BB4?logo=php&logoColor=white)
 ![Tailwind CSS 4](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
